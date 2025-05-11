@@ -26,14 +26,14 @@ def upload_clipboard_image_to_imgur():
     if not img:
         return None
 
-    # 
+    # Convert image to base64 bytes so Imgur can handle it via HTTP POST
     buffered = BytesIO()
     img.save(buffered, format="PNG")
     img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
 
     headers = {"Authorization": f"Client-ID {IMGUR_CLIENT_ID}"}
     data = {"image": img_str, "type": "base64"}
-
+    
     response = requests.post(
             "https://api.imgur.com/3/image",
             headers=headers,
